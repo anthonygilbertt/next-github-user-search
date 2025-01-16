@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import { useForm } from 'react-hook-form';
-import { text } from "stream/consumers";
 
 export default function App() {
   const {
