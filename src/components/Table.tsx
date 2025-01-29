@@ -53,18 +53,16 @@ import React from 'react';
       <tbody>
         {data.map((row: Data, rowIndex) => (
           <tr key={rowIndex}>
-            {columns.map((col, index) => (
               <td
-                key={index}
+                key={rowIndex}
                 style={{
                   border: '1px solid #ccc',
                   padding: '8px',
                 }}
               >
-                {/* {row[col.accessor]} */}
-                {col.accessor}
+              {/* {row[col.accessor]} */}
+              { row.avatar }
               </td>
-            ))}
           </tr>
         ))}
       </tbody>
