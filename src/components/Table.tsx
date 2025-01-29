@@ -48,6 +48,7 @@ import React from 'react';
                   border: '1px solid #ccc',
                   padding: '8px',
                 }}
+
               >
                 {row[col.accessor]}
               </td>

@@ -1,4 +1,3 @@
-import { log } from "console"
 import { Octokit } from "octokit"
 
 const githubAPI = async (username: string) => {

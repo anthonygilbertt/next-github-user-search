@@ -1,6 +1,4 @@
 "use client";
-import { useState } from "react";
-import githubAPI from "../app/lib/github";
 import { useForm } from 'react-hook-form';
 import Table from "../components/Table"
 
