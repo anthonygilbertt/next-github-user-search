@@ -1,6 +1,6 @@
 import React from 'react';
 
-  const data = [
+  const data : any = [
     { avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'John Doe', age: 28, occupation: 'Developer' },
     { avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Jane Smith', age: 34, occupation: 'Designer' },
     { avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Alice Brown', age: 42, occupation: 'Project Manager' },
@@ -39,7 +39,7 @@ import React from 'react';
       </thead>
 
       <tbody>
-        {data.map((row, rowIndex) => (
+        {data.map((row: any, rowIndex: any) => (
           <tr key={rowIndex}>
             {columns.map((col) => (
               <td
