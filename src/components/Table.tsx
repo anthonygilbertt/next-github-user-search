@@ -1,12 +1,24 @@
 import React from 'react';
 
-  const data : any = [
+  interface Data {
+    avatar: string
+    name: string,
+    age: number,
+    occupation: string
+  }
+
+  interface Column {
+    header: string,
+    accessor: string
+  }
+
+  const data: Data[] = [
     { avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'John Doe', age: 28, occupation: 'Developer' },
     { avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Jane Smith', age: 34, occupation: 'Designer' },
     { avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Alice Brown', age: 42, occupation: 'Project Manager' },
   ];
  
-  const columns = [
+  const columns: Column[] =  [
     { header: 'Avatar', accessor: 'avatar' },
     { header: 'Name', accessor: 'name' },
     { header: 'Age', accessor: 'age' },
@@ -23,9 +35,9 @@ import React from 'react';
     <table style={{ borderCollapse: 'collapse', width: '100%' }}>
       <thead>
         <tr>
-          {columns.map((col) => (
+          {columns.map((col,columnIndex) => (
             <th
-              key={col.accessor}
+              key={columnIndex}
               style={{
                 border: '1px solid #ccc',
                 padding: '8px',
@@ -39,18 +51,18 @@ import React from 'react';
       </thead>
 
       <tbody>
-        {data.map((row: any, rowIndex: any) => (
+        {data.map((row: Data, rowIndex) => (
           <tr key={rowIndex}>
-            {columns.map((col) => (
+            {columns.map((col, index) => (
               <td
-                key={col.accessor}
+                key={index}
                 style={{
                   border: '1px solid #ccc',
                   padding: '8px',
                 }}
-
               >
-                {row[col.accessor]}
+                {/* {row[col.accessor]} */}
+                {col.accessor}
               </td>
             ))}
           </tr>
