@@ -12,6 +12,7 @@ import React from 'react';
     accessor: string
   }
 
+  // TODO: Avatar image, Name, Bio, Followers, Following, Twitter, Github Link
   const data: Data[] = [
     { avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'John Doe', age: 28, occupation: 'Developer' },
     { avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Jane Smith', age: 34, occupation: 'Designer' },
@@ -44,24 +45,49 @@ import React from 'react';
                 textAlign: 'left',
               }}
             >
-              {col.header}
+            {col.header}
             </th>
           ))}
         </tr>
       </thead>
-
       <tbody>
         {data.map((row: Data, rowIndex) => (
           <tr key={rowIndex}>
+            <td
+              key={rowIndex}
+              style={{
+                border: '1px solid #ccc',
+                padding: '8px',
+              }}>
+            <img
+              className="avatar"
+              src={row.avatar}
+            />
+            </td>
+            <td
+              key={rowIndex}
+              style={{
+                border: '1px solid #ccc',
+                padding: '8px',
+              }}>
+
+              { row.name }
+              </td>
               <td
                 key={rowIndex}
                 style={{
                   border: '1px solid #ccc',
                   padding: '8px',
-                }}
-              >
-              {/* {row[col.accessor]} */}
-              { row.avatar }
+                }}>
+              { row.age }
+              </td>
+              <td
+                key={rowIndex}
+                style={{
+                  border: '1px solid #ccc',
+                  padding: '8px',
+                }}>
+              {row.occupation}
               </td>
           </tr>
         ))}
