@@ -7,6 +7,7 @@ export default function Form() {
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
       } = useForm({
         defaultValues: {
@@ -25,12 +26,15 @@ export default function Form() {
             <h1 className="text-white">
             Search for a GitHub User 
             </h1>
-            
             {/* <Table data={data} columns={columns} /> */}
 
             {/* <p>{count}</p>
             <button onClick={ () => setCount(count + 1)}> Increment</button> */}
-            <form onSubmit={handleSubmit((data) => console.log(data))}>
+            <form onSubmit={handleSubmit((data, e) => {
+                console.log(data)
+                alert('Form Submitted')
+                reset() // update form back to default values
+            } )}>
                 <input className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600" {...register('username', { required: true })} />
                 {errors.username && <p>Github Username is required.</p>}
                 <br></br>
