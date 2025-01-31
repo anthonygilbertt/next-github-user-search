@@ -3,8 +3,9 @@ import React from 'react';
   interface Data {
     avatar: string
     name: string,
-    age: number,
-    occupation: string
+    bio: string,
+    twitter: string,
+    githubLink: string
   }
 
   interface Column {
@@ -12,18 +13,18 @@ import React from 'react';
     accessor: string
   }
 
-  // TODO: Avatar image, Name, Bio, Followers, Following, Twitter, Github Link
   const data: Data[] = [
-    { avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'John Doe', age: 28, occupation: 'Developer' },
-    { avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Jane Smith', age: 34, occupation: 'Designer' },
-    { avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Alice Brown', age: 42, occupation: 'Project Manager' },
+    { avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'John Doe', bio: "This is a bio for a developer", twitter: 'Developer', githubLink: "https://github.com/" },
+    { avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Jane Smith', bio: "This is a bio for a developer", twitter: 'Designer', githubLink: "https://github.com/" },
+    { avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Alice Brown', bio: "This is a bio for a developer", twitter: 'Project Manager', githubLink: "https://github.com/" },
   ];
- 
+
   const columns: Column[] =  [
     { header: 'Avatar', accessor: 'avatar' },
     { header: 'Name', accessor: 'name' },
-    { header: 'Age', accessor: 'age' },
-    { header: 'Occupation', accessor: 'occupation' },
+    { header: 'Bio', accessor: 'age' },
+    { header: 'Twitter', accessor: 'occupation'},
+    { header: 'GithubLink', accessor: 'balls'},
   ];
 
 // function Table({ data, columns }) {
@@ -62,6 +63,7 @@ import React from 'react';
             <img
               className="avatar"
               src={row.avatar}
+              style={{ width: '100px', height: '100px', borderRadius: '100%' }}
             />
             </td>
             <td
@@ -70,7 +72,6 @@ import React from 'react';
                 border: '1px solid #ccc',
                 padding: '8px',
               }}>
-
               { row.name }
               </td>
               <td
@@ -79,7 +80,7 @@ import React from 'react';
                   border: '1px solid #ccc',
                   padding: '8px',
                 }}>
-              { row.age }
+              { row.bio }
               </td>
               <td
                 key={rowIndex}
@@ -87,7 +88,17 @@ import React from 'react';
                   border: '1px solid #ccc',
                   padding: '8px',
                 }}>
-              {row.occupation}
+              { row.twitter }
+              </td>
+              <td
+                key={rowIndex}
+                style={{
+                  border: '1px solid #ccc',
+                  padding: '8px',
+                  color: 'skyblue',
+                  textDecoration: 'underline'
+                }}>
+                <a href={row.githubLink} className="href" target='_blank'>{ row.githubLink }</a>
               </td>
           </tr>
         ))}
