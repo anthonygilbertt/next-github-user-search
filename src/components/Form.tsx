@@ -30,7 +30,7 @@ export default function Form() {
 
             {/* <p>{count}</p>
             <button onClick={ () => setCount(count + 1)}> Increment</button> */}
-            <form onSubmit={handleSubmit((data, e) => {
+            <form onSubmit={handleSubmit((data) => {
                 console.log(data)
                 alert('Form Submitted')
                 reset() // update form back to default values
