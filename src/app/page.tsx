@@ -1,10 +1,11 @@
 import Image from "next/image";
-import githubAPI from "../app/lib/github";
 import Form from "../components/Form"
 
+// export default async function App() {
 export default async function App() {
-  const getUserInfo = await githubAPI("anthonygilbertt");
-  console.log(getUserInfo);
+  // TODO: Make this an empty default value
+  // const getUserInfo = await githubAPI("anthonygilbertt");
+  // console.log(getUserInfo);
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -26,11 +27,9 @@ export default async function App() {
           width={62}
           height={62}
           priority
-        />
-        
+        />        
          by Anthony Gilbert
         </a>
-        
       </footer>
     </div>
   );
