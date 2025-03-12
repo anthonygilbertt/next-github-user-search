@@ -3,7 +3,6 @@ import Form from "../components/Form"
 
 // export default async function App() {
 export default async function App() {
-  // TODO: Make this an empty default value
   // const getUserInfo = await githubAPI("anthonygilbertt");
   // console.log(getUserInfo);
 

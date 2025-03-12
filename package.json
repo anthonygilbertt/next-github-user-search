@@ -11,6 +11,8 @@
   "dependencies": {
     "@apollo/client": "^3.12.7",
     "graphql": "^16.10.0",
+    "lodash": "^4.17.21",
+    "lodash.debounce": "^4.0.8",
     "next": "15.1.4",
     "octokit": "^4.1.0",
     "react": "^19.0.0",
@@ -19,6 +21,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

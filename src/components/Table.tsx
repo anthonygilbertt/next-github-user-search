@@ -14,9 +14,11 @@ import React from 'react';
   }
 
   const data: Data[] = [
-    { avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'John Doe', bio: "This is a bio for a developer", twitter: 'Developer', githubLink: "https://github.com/" },
-    { avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Jane Smith', bio: "This is a bio for a developer", twitter: 'Designer', githubLink: "https://github.com/" },
-    { avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Alice Brown', bio: "This is a bio for a developer", twitter: 'Project Manager', githubLink: "https://github.com/" },
+    {avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'John Doe', bio: "This is a bio for a developer", twitter: 'Developer', githubLink: "https://github.com/" },
+    {avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Jane Smith', bio: "This is a bio for a developer", twitter: 'Designer', githubLink: "https://github.com/" },
+    {avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Alice Brown', bio: "This is a bio for a developer", twitter: 'Project Manager', githubLink: "https://github.com/" },
+    {avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Alice Brown', bio: "This is a bio for a developer", twitter: 'Project Manager', githubLink: "https://github.com/" },
+    {avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Alice Brown', bio: "This is a bio for a developer", twitter: 'Project Manager', githubLink: "https://github.com/" },
   ];
 
   const columns: Column[] =  [
@@ -26,6 +28,7 @@ import React from 'react';
     { header: 'Twitter', accessor: 'occupation'},
     { header: 'GithubLink', accessor: 'balls'},
   ];
+
 
 // function Table({ data, columns }) {
   function Table() {
@@ -37,9 +40,9 @@ import React from 'react';
     <table style={{ borderCollapse: 'collapse', width: '100%' }}>
       <thead>
         <tr>
-          {columns.map((col,columnIndex) => (
+          {columns.map((col) => (
             <th
-              key={columnIndex}
+              key={col.accessor}
               style={{
                 border: '1px solid #ccc',
                 padding: '8px',
@@ -55,7 +58,6 @@ import React from 'react';
         {data.map((row: Data, rowIndex) => (
           <tr key={rowIndex}>
             <td
-              key={rowIndex}
               style={{
                 border: '1px solid #ccc',
                 padding: '8px',
@@ -67,7 +69,6 @@ import React from 'react';
             />
             </td>
             <td
-              key={rowIndex}
               style={{
                 border: '1px solid #ccc',
                 padding: '8px',
@@ -75,7 +76,6 @@ import React from 'react';
               { row.name }
               </td>
               <td
-                key={rowIndex}
                 style={{
                   border: '1px solid #ccc',
                   padding: '8px',
@@ -83,7 +83,6 @@ import React from 'react';
               { row.bio }
               </td>
               <td
-                key={rowIndex}
                 style={{
                   border: '1px solid #ccc',
                   padding: '8px',
@@ -91,7 +90,6 @@ import React from 'react';
               { row.twitter }
               </td>
               <td
-                key={rowIndex}
                 style={{
                   border: '1px solid #ccc',
                   padding: '8px',
