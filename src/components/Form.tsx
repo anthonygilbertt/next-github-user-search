@@ -3,73 +3,103 @@ import Table from "../components/Table"
 import githubAPI from "../queries/github";
 import { useState } from 'react';
 
-const Form = () => {
-    // Set state
-    let [inputValue, setInputValue] = useState('')
-    // TODO: Get user data to display in the console
-    // const getUserInfo =  githubAPI("anthonygilbertt")
-    // console.log('getUserInfo:', getUserInfo)
-
-    // This function only runs when the button is clicked
-    async function submitForm(event: any) {
-        event.preventDefault();
-        // Perform your operation with the current input value
-        console.log("name:", inputValue);
-        const getUserInfo = await githubAPI(inputValue);
-        console.log("getUserInfo:", getUserInfo);
-        // setInputValue('')
-    }
-    return (
-        <div>
-            <h1 className="text-white">Search for a GitHub User</h1>
-            <form onSubmit={submitForm}>
-                <input className="block
-                    w-full
-                    rounded-md
-                    bg-white
-                    px-3.5
-                    py-2
-                    text-base
-                    text-gray-900
-                    outline
-                    outline-1
-                    -outline-offset-1
-                    outline-gray-300
-                    placeholder:text-gray-400
-                    focus:outline
-                    focus:outline-2
-                    focus:-outline-offset-2
-                    focus:outline-indigo-600"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    placeholder="Enter username..."
-                    required />
-                <br></br>
-                <input className="rounded-full
-                       border
-                       border-solid
-                       border-transparent
-                       transition-colors
-                       flex
-                       items-center
-                       justify-center
-                       bg-foreground
-                       text-background
-                       gap-2
-                       hover:bg-[#383838]
-                       dark:hover:bg-[#ccc]
-                       text-sm
-                       sm:text-base
-                       h-10
-                       sm:h-12
-                       px-4
-                       sm:px-5"
-                    type="submit" />
-            </form>
-            <br></br>
-            <Table />
-        </div>
-    )
+interface GitHubResponse {
+    user: {
+        login: string;
+        name: string;
+        bio: string;
+        avatarUrl: string;
+        location: string;
+        email: string;
+        websiteUrl: string;
+        twitterUsername: string;
+        followers: { totalCount: number };
+        following: { totalCount: number };
+        repositories: {
+            totalCount: number;
+            nodes: Array<{
+                name: string;
+                url: string;
+                description: string;
+                updatedAt: string;
+                stargazerCount: number;
+                forkCount: number;
+                primaryLanguage?: {
+                    name: string;
+                    color: string;
+                };
+            }>;
+        };
+    };
 }
 
-export default Form
+const Form = () => {
+    const [inputValue, setInputValue] = useState('');
+    const [userData, setUserData] = useState<GitHubResponse['user'] | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    async function submitForm(event: React.FormEvent) {
+        event.preventDefault();
+        setIsLoading(true);
+        setError(null);
+        
+        try {
+            const data = await githubAPI(inputValue) as GitHubResponse;
+            setUserData(data.user);
+        } catch (err: any) {
+            setError(err.message || 'An error occurred while fetching user data');
+            setUserData(null);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    return (
+        <div className="max-w-6xl mx-auto px-4 py-8">
+            <h1 className="text-3xl font-bold text-white mb-8">Search for a GitHub User</h1>
+            
+            <form onSubmit={submitForm} className="mb-8">
+                <div className="flex gap-4">
+                    <input 
+                        className="flex-1 rounded-md bg-white px-3.5 py-2 text-base text-gray-900 
+                                 shadow-sm ring-1 ring-inset ring-gray-300 
+                                 placeholder:text-gray-400 focus:ring-2 
+                                 focus:ring-inset focus:ring-indigo-600"
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        placeholder="Enter GitHub username..."
+                        required 
+                    />
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="rounded-md bg-indigo-600 px-6 py-2 text-base 
+                                 font-semibold text-white shadow-sm 
+                                 hover:bg-indigo-500 focus-visible:outline 
+                                 focus-visible:outline-2 focus-visible:outline-offset-2 
+                                 focus-visible:outline-indigo-600 disabled:opacity-50
+                                 disabled:cursor-not-allowed"
+                    >
+                        {isLoading ? 'Searching...' : 'Search'}
+                    </button>
+                </div>
+            </form>
+
+            {error && (
+                <div className="rounded-md bg-red-50 p-4 mb-8">
+                    <div className="flex">
+                        <div className="ml-3">
+                            <h3 className="text-sm font-medium text-red-800">Error</h3>
+                            <div className="mt-2 text-sm text-red-700">{error}</div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <Table userData={userData} />
+        </div>
+    );
+}
+
+export default Form;

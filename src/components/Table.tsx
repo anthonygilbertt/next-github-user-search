@@ -1,108 +1,121 @@
 import React from 'react';
 
-  interface Data {
-    avatar: string
-    name: string,
-    bio: string,
-    twitter: string,
-    githubLink: string
+interface GitHubUser {
+  login: string;
+  name: string;
+  bio: string;
+  avatarUrl: string;
+  location: string;
+  email: string;
+  websiteUrl: string;
+  twitterUsername: string;
+  followers: { totalCount: number };
+  following: { totalCount: number };
+  repositories: {
+    totalCount: number;
+    nodes: Array<{
+      name: string;
+      url: string;
+      description: string;
+      updatedAt: string;
+      stargazerCount: number;
+      forkCount: number;
+      primaryLanguage?: {
+        name: string;
+        color: string;
+      };
+    }>;
+  };
+}
+
+interface TableProps {
+  userData: GitHubUser | null;
+}
+
+function Table({ userData }: TableProps) {
+  if (!userData) {
+    return <div className="text-center p-4">No user data available</div>;
   }
 
-  interface Column {
-    header: string,
-    accessor: string
-  }
-
-  const data: Data[] = [
-    {avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'John Doe', bio: "This is a bio for a developer", twitter: 'Developer', githubLink: "https://github.com/" },
-    {avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Jane Smith', bio: "This is a bio for a developer", twitter: 'Designer', githubLink: "https://github.com/" },
-    {avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Alice Brown', bio: "This is a bio for a developer", twitter: 'Project Manager', githubLink: "https://github.com/" },
-    {avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Alice Brown', bio: "This is a bio for a developer", twitter: 'Project Manager', githubLink: "https://github.com/" },
-    {avatar: 'https://i.imgur.com/XgbZdeA.jpeg', name: 'Alice Brown', bio: "This is a bio for a developer", twitter: 'Project Manager', githubLink: "https://github.com/" },
-  ];
-
-  const columns: Column[] =  [
-    { header: 'Avatar', accessor: 'avatar' },
-    { header: 'Name', accessor: 'name' },
-    { header: 'Bio', accessor: 'age' },
-    { header: 'Twitter', accessor: 'occupation'},
-    { header: 'GithubLink', accessor: 'balls'},
-  ];
-
-
-// function Table({ data, columns }) {
-  function Table() {
   return (
-    <>
-    <h1>
-      Github User Results
-    </h1>
-    <table style={{ borderCollapse: 'collapse', width: '100%' }}>
-      <thead>
-        <tr>
-          {columns.map((col) => (
-            <th
-              key={col.accessor}
-              style={{
-                border: '1px solid #ccc',
-                padding: '8px',
-                textAlign: 'left',
-              }}
-            >
-            {col.header}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((row: Data, rowIndex) => (
-          <tr key={rowIndex}>
-            <td
-              style={{
-                border: '1px solid #ccc',
-                padding: '8px',
-              }}>
-            <img
-              className="avatar"
-              src={row.avatar}
-              style={{ width: '100px', height: '100px', borderRadius: '100%' }}
-            />
-            </td>
-            <td
-              style={{
-                border: '1px solid #ccc',
-                padding: '8px',
-              }}>
-              { row.name }
-              </td>
-              <td
-                style={{
-                  border: '1px solid #ccc',
-                  padding: '8px',
-                }}>
-              { row.bio }
-              </td>
-              <td
-                style={{
-                  border: '1px solid #ccc',
-                  padding: '8px',
-                }}>
-              { row.twitter }
-              </td>
-              <td
-                style={{
-                  border: '1px solid #ccc',
-                  padding: '8px',
-                  color: 'skyblue',
-                  textDecoration: 'underline'
-                }}>
-                <a href={row.githubLink} className="href" target='_blank'>{ row.githubLink }</a>
-              </td>
-          </tr>
+    <div className="overflow-x-auto">
+      <h1 className="text-2xl font-bold mb-4">GitHub User Profile</h1>
+      
+      <div className="bg-white shadow rounded-lg p-6 mb-6">
+        <div className="flex items-center space-x-4">
+          <img 
+            src={userData.avatarUrl} 
+            alt={`${userData.login}'s avatar`}
+            className="w-20 h-20 rounded-full"
+          />
+          <div>
+            <h2 className="text-xl font-semibold">{userData.name || userData.login}</h2>
+            <p className="text-gray-600">{userData.bio}</p>
+            <div className="mt-2 space-x-4">
+              {userData.location && (
+                <span className="text-sm text-gray-500">📍 {userData.location}</span>
+              )}
+              {userData.twitterUsername && (
+                <a 
+                  href={`https://twitter.com/${userData.twitterUsername}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-blue-500 hover:underline"
+                >
+                  🐦 @{userData.twitterUsername}
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-4 mt-6">
+          <div className="text-center">
+            <div className="text-2xl font-bold">{userData.repositories.totalCount}</div>
+            <div className="text-gray-600">Repositories</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl font-bold">{userData.followers.totalCount}</div>
+            <div className="text-gray-600">Followers</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl font-bold">{userData.following.totalCount}</div>
+            <div className="text-gray-600">Following</div>
+          </div>
+        </div>
+      </div>
+
+      <h2 className="text-xl font-semibold mb-4">Recent Repositories</h2>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {userData.repositories.nodes.map((repo) => (
+          <a
+            key={repo.url}
+            href={repo.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow"
+          >
+            <h3 className="font-semibold text-lg">{repo.name}</h3>
+            {repo.description && (
+              <p className="text-gray-600 text-sm mt-1">{repo.description}</p>
+            )}
+            <div className="mt-3 flex items-center space-x-4 text-sm text-gray-500">
+              {repo.primaryLanguage && (
+                <span className="flex items-center">
+                  <span
+                    className="w-3 h-3 rounded-full mr-1"
+                    style={{ backgroundColor: repo.primaryLanguage.color }}
+                  />
+                  {repo.primaryLanguage.name}
+                </span>
+              )}
+              <span>⭐ {repo.stargazerCount}</span>
+              <span>🍴 {repo.forkCount}</span>
+            </div>
+          </a>
         ))}
-      </tbody>
-    </table>
-    </>
+      </div>
+    </div>
   );
 }
 

@@ -2,38 +2,27 @@ import { Octokit } from "octokit"
 
 const githubAPI = async (username: string) => {
   try {
-    const octokit = new Octokit({auth:process.env.CLASSIC_PAT})
-    const userInfo = await octokit.graphql.paginate(`
-    query GetUsernameAndRepos($username: String!, $num: Int = 100, $cursor: String) {
-      user(login: $username) {
-        login,
-        repositories(first: $num, after: $cursor, isFork: false) {
-          nodes {
-            url,
-            updatedAt,
-            createdAt,
-            languages(first: 100) {
-              edges {
-                size,
-                node {
-                  name
-                }
-              }
-            }
-          }
-          pageInfo {
-            hasNextPage
-            endCursor
-          }
-        }
-      }
+    console.log('Making API request for user:', username);
+    const response = await fetch('/api/github', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to fetch user data');
     }
-  }`,{username:username})
-        return userInfo
-    } catch (error) {
-        console.log(error)
-        return error;
-    }
+
+    const data = await response.json();
+    console.log('API response received');
+    return data;
+  } catch (error: any) {
+    console.error('API Error:', error);
+    throw new Error(error.message || 'An error occurred while fetching GitHub data');
+  }
 }
 
 export default githubAPI
