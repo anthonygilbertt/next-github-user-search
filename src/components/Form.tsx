@@ -3,39 +3,41 @@ import Table from "../components/Table"
 import githubAPI from "../queries/github";
 import { useState } from 'react';
 
-interface GitHubResponse {
-    user: {
-        login: string;
+interface GitHubUser {
+  login: string;
+  name: string;
+  bio: string;
+  avatarUrl: string;
+  location: string;
+  email: string;
+  websiteUrl: string;
+  twitterUsername: string;
+  followers: { totalCount: number };
+  following: { totalCount: number };
+  repositories: {
+    totalCount: number;
+    nodes: Array<{
+      name: string;
+      url: string;
+      description: string;
+      updatedAt: string;
+      stargazerCount: number;
+      forkCount: number;
+      primaryLanguage?: {
         name: string;
-        bio: string;
-        avatarUrl: string;
-        location: string;
-        email: string;
-        websiteUrl: string;
-        twitterUsername: string;
-        followers: { totalCount: number };
-        following: { totalCount: number };
-        repositories: {
-            totalCount: number;
-            nodes: Array<{
-                name: string;
-                url: string;
-                description: string;
-                updatedAt: string;
-                stargazerCount: number;
-                forkCount: number;
-                primaryLanguage?: {
-                    name: string;
-                    color: string;
-                };
-            }>;
-        };
-    };
+        color: string;
+      };
+    }>;
+  };
+}
+
+interface ApiError {
+  message: string;
 }
 
 const Form = () => {
     const [inputValue, setInputValue] = useState('');
-    const [userData, setUserData] = useState<GitHubResponse['user'] | null>(null);
+    const [userData, setUserData] = useState<GitHubUser | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -45,10 +47,11 @@ const Form = () => {
         setError(null);
         
         try {
-            const data = await githubAPI(inputValue) as GitHubResponse;
+            const data = await githubAPI(inputValue);
             setUserData(data.user);
-        } catch (err: any) {
-            setError(err.message || 'An error occurred while fetching user data');
+        } catch (error) {
+            const apiError = error as ApiError;
+            setError(apiError.message || 'An error occurred while fetching user data');
             setUserData(null);
         } finally {
             setIsLoading(false);

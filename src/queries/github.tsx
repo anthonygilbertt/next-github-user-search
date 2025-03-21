@@ -1,4 +1,6 @@
-import { Octokit } from "octokit"
+interface FetchError {
+  message: string;
+}
 
 const githubAPI = async (username: string) => {
   try {
@@ -19,9 +21,10 @@ const githubAPI = async (username: string) => {
     const data = await response.json();
     console.log('API response received');
     return data;
-  } catch (error: any) {
+  } catch (error) {
     console.error('API Error:', error);
-    throw new Error(error.message || 'An error occurred while fetching GitHub data');
+    const fetchError = error as FetchError;
+    throw new Error(fetchError.message || 'An error occurred while fetching GitHub data');
   }
 }
 

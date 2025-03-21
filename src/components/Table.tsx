@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 interface GitHubUser {
   login: string;
@@ -43,11 +44,15 @@ function Table({ userData }: TableProps) {
       
       <div className="bg-white shadow rounded-lg p-6 mb-6">
         <div className="flex items-center space-x-4">
-          <img 
-            src={userData.avatarUrl} 
-            alt={`${userData.login}'s avatar`}
-            className="w-20 h-20 rounded-full"
-          />
+          <div className="relative w-20 h-20">
+            <Image 
+              src={userData.avatarUrl}
+              alt={`${userData.login}'s avatar`}
+              fill
+              className="rounded-full object-cover"
+              sizes="(max-width: 80px) 100vw, 80px"
+            />
+          </div>
           <div>
             <h2 className="text-xl font-semibold">{userData.name || userData.login}</h2>
             <p className="text-gray-600">{userData.bio}</p>

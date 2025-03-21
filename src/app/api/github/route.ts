@@ -1,6 +1,17 @@
 import { NextResponse } from 'next/server';
 import { Octokit } from 'octokit';
 
+interface GitHubError extends Error {
+  status?: number;
+  response?: {
+    status: number;
+    data: {
+      message: string;
+      documentation_url?: string;
+    };
+  };
+}
+
 export async function POST(request: Request) {
   const token = process.env.CLASSIC_PAT;
   
@@ -60,10 +71,13 @@ export async function POST(request: Request) {
 
     const response = await octokit.graphql(query, { username });
     return NextResponse.json(response);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('GitHub API Error:', error);
-    const status = error.status || 500;
-    const message = error.message || 'An error occurred while fetching GitHub data';
+    
+    const githubError = error as GitHubError;
+    const status = githubError.response?.status || githubError.status || 500;
+    const message = githubError.response?.data?.message || githubError.message || 'An error occurred while fetching GitHub data';
+    
     return NextResponse.json({ error: message }, { status });
   }
 }
