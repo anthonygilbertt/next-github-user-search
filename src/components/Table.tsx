@@ -54,7 +54,7 @@ function Table({ userData }: TableProps) {
             />
           </div>
           <div>
-            <h2 className="text-xl font-semibold">{userData.name || userData.login}</h2>
+            <h2 className="text-xl text-gray-500 font-semibold">{userData.name || userData.login}</h2>
             <p className="text-gray-600">{userData.bio}</p>
             <div className="mt-2 space-x-4">
               {userData.location && (
@@ -76,15 +76,15 @@ function Table({ userData }: TableProps) {
 
         <div className="grid grid-cols-3 gap-4 mt-6">
           <div className="text-center">
-            <div className="text-2xl font-bold">{userData.repositories.totalCount}</div>
+            <div className="text-2xl font-bold text-gray-500 ">{userData.repositories.totalCount}</div>
             <div className="text-gray-600">Repositories</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold">{userData.followers.totalCount}</div>
+            <div className="text-2xl font-bold text-gray-500 ">{userData.followers.totalCount}</div>
             <div className="text-gray-600">Followers</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold">{userData.following.totalCount}</div>
+            <div className="text-2xl font-bold text-gray-500 ">{userData.following.totalCount}</div>
             <div className="text-gray-600">Following</div>
           </div>
         </div>
@@ -98,7 +98,7 @@ function Table({ userData }: TableProps) {
             href={repo.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="block p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow"
+            className="block p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow text-gray-500"
           >
             <h3 className="font-semibold text-lg">{repo.name}</h3>
             {repo.description && (
